@@ -1,4 +1,4 @@
-# crypto-critic
+# Crypto Critic: Analyzing Sentiments and Predictions Through News Aggregation
 
 ## Description
 
