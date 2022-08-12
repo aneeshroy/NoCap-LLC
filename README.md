@@ -33,3 +33,7 @@ The first command after that should be to load the data, through
 ```
 $ curl localhost:5000/read-data -X POST
 ```
+## Citations
+
+(2022, April 19). Crypto News Recent. Kaggle. LFSCHMID.
+www.kaggle.com/datasets/lukasschmidt/crypto-news-recent
