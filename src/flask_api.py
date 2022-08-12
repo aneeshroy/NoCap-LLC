@@ -4,8 +4,8 @@ import redis
 import json
 import csv
 import logging
-from jobs import rd, q, add_job, get_job_by_id, hdb
-from uuid import uuid4
+from jobs import rd, add_job, get_job_by_id, hdb
+
 
 app = Flask(__name__)
 
@@ -50,7 +50,7 @@ def help():
     output = "/help - (GET) - output these instructions"
     output += "\n/load_data - (POST) -  loads data into the Redis database"
     output += "\n/topics - (GET) -  Returns all topics available in dataset"
-    output += "\n/topics/<topic> - (GET) -  Returns all article titles about <topic>, "
+    output += "\n/topics/<topic> - (GET) -  Returns all article titles about <topic> "
     output += "\n/sentiment - (GET) - Returns how to get a graph indicating the sentiment (starting at neutral) over time for different parameters"
     output += "\n/sources - (GET) - Returns all sources available in dataset"
     output += "\\n/sources/<source> - (GET) - Returns all article titles from <source> "
@@ -59,6 +59,10 @@ def help():
     output += "\n/<article-title> - (GET) - Returns all of the information about an article"
     output += "\n/update_info - (GET) - Returns how to update an article"
     output += "\n/create_info - (GET) - Returns how to create an article"
+    output += "/jobs - (POST) - submit job"
+    output += "/jobs/<jobid> - (GET) - get info on job"
+    output += "/job_list - (GET) - see all past and current jobs"
+    output += "/download/<jobid> - (GET) - see plots from completed jobs"
 
     return output
 
@@ -443,18 +447,4 @@ def create_article():
 
 if __name__ == "__main__":
 
-    crypto_news = {}
-    crypto_news["articles"] = []
-
-    with open('crypto_news_api.csv', 'r') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            article = dict(row)
-            del article["news_url"]
-            del article["image_url"]
-            crypto_news['articles'].append(article)
-
-    for i in crypto_news['articles'] :
-        print(i["type"])
-
-   #app.run(debug = True, host = '0.0.0.0')
+   app.run(debug = True, host = '0.0.0.0')

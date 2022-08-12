@@ -45,7 +45,16 @@ def execute_job(jid):
         i -= line[0]
     
     plt.plot(len(line), line)
-    title = "Sentiment for " + value + " Over Time"
-    
+    plt.title("Sentiment for " + value + " Over Time")
+    plt.xlabel("Time")
+    plt.ylabel("Sentiment")
+
+    plt.savefig("linegraph.png")
+
+    file_bytes = open('histogram.png', 'rb').read()
+
+    hdb.set(jid, file_bytes)  
 
     update_job_status(jid, 'complete')
+
+execute_job()

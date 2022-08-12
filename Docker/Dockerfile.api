@@ -1,0 +1,13 @@
+FROM python:3.9
+
+RUN mkdir /app
+WORKDIR /app 
+
+RUN pip3 install Flask==2.0.3 \
+                 redis==4.1.4 \
+                 hotqueue==0.2.8
+
+COPY ./src/* /app/
+
+ENTRYPOINT ["python3"]
+CMD ["flask_api.py"]
