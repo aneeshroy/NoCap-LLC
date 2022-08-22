@@ -1,4 +1,5 @@
 import string
+import requests
 from flask import Flask, request, send_file
 import redis
 import json
@@ -25,15 +26,14 @@ def data():
 
     rd.flushdb
     
-    with open('crypto_news_api.csv', 'r') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            article = dict(row)
-            del article["news_url"]
-            del article["image_url"]
-            del article["type"]
-            rd.set(article["title"], article)
+    url = "https://crypto-news16.p.rapidapi.com/news/top/5"
 
+    headers = {
+        "X-RapidAPI-Key": "c0f32eda55msh6e6142a38e758a8p104cc9jsn794b80ee3296",
+        "X-RapidAPI-Host": "crypto-news16.p.rapidapi.com"
+    }
+
+    response = requests.request("GET", url, headers=headers)
     return "data loaded into database\n"
 
 
