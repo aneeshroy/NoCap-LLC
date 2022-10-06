@@ -1,4 +1,5 @@
 import string
+from turtle import title
 import requests
 from flask import Flask, request, send_file
 import redis
@@ -26,15 +27,15 @@ def data():
 
     rd.flushdb
     
-    url = "https://crypto-news16.p.rapidapi.com/news/top/5"
+    url = "https://crypto-news16.p.rapidapi.com/news/all"
 
     headers = {
         "X-RapidAPI-Key": "c0f32eda55msh6e6142a38e758a8p104cc9jsn794b80ee3296",
         "X-RapidAPI-Host": "crypto-news16.p.rapidapi.com"
     }
 
-    response = requests.request("GET", url, headers=headers)
-    return "data loaded into database\n"
+    response = requests.get(url, headers=headers)
+    return response
 
 
 @app.route('/help', methods=['GET'])
@@ -159,8 +160,13 @@ def topics():
 
     return json.dumps(unique_topics, indent = 1)
 
+# def flagger():
+#     notification = ""
+
+#     for i in 
     
-@app.route('topics/<topic>', methods=['GET'])
+    
+@app.route('/topics/<topic>', methods=['GET'])
 def topic_info(topic: str):
 
     """
@@ -304,7 +310,7 @@ def remove_source(source: str):
 
     return "source removed"
 
-@app.route('/<article-title>', methods=['GET'])
+#@app.route('/title/<article-title>', methods=['GET'])
 def article(title: str):
 
     """
@@ -346,7 +352,7 @@ def update_info():
     """
 
 
-@app.route('/title/<article-title>/update/<parameter>/<value>', methods=['GET'])
+#@app.route('/title/<article-title>/update/<parameter>/<value>', methods=['GET'])
 def article_update(title: str, param: str, value: str):
 
     """
@@ -447,4 +453,56 @@ def create_article():
 
 if __name__ == "__main__":
 
-   app.run(debug = True, host = '0.0.0.0')
+   #app.run(debug = True, host = '0.0.0.0')
+
+    response = data()
+    data = json.loads(response.text)
+
+    hack_words = ['hack', 'breach', 'compromise', 'annoyance', 'stole', 'steal', 'attack', 'scam', 'lost', 'lose', 'bankrupt']
+    protocols = ['maker', 'uniswap', 'aave', 'curve', 'convex finance', 'compound', 'instadapp', 'balancer', 'bancor', 'bancor-wip', 'liquity', 'alpha homora',
+    'yearn.finance', 'dydx', 'tornadocash', 'nexus mutual', 'fei protocol', 'sushiswap', 'flexa', 'defi saver', 'olympus', 'xdai', 'notional finance', 'opyn',
+    'index coop', 'sablier', 'lightning network', 'ribbon', 'set protocol', 'loopring', 'kyber', 'reflexer', 'origin dollar', 'b.protocol', 'mstable', 'badger dao',
+    'idle finance', 'harvest finance', 'vesper', 'strike', 'defi swap', 'keep network', 'tbtc', 'o3 swap', 'metronome', 'deversifi', 'defidollar', 'saddle', 
+    'c.r.e.a.m. finance', 'cream finance', 'dodo', 'truefi']
+    exchanges = ['binance', 'coinbase', 'ftx','kraken', 'kucoin', 'binance.us', 'gate.io', 'bitfinex', 'huobi', 'huobi global', 'gemini', 'ftx us', 'bitstamp',
+    'bitflyer', 'lbank' ,'crypto.com', 'coincheck', 'mexc', 'okx', 'coinone', 'bithumb', 'liquid', 'poloniex', 'xt.com', 'bitmex', 'bitrue', 'binance tr', 'bitmart',
+    'blockchain.com', 'okcoin', 'upbit', 'zaif', 'korbit', 'bittrex', 'coinlist pro', 'whitebit', 'bigone', 'aax', 'btcex', 'bybit', 'probit', 'probit global',
+    'ascendex', 'bitmax', 'coinw', 'hotcoin global', 'deepcoin', 'currency.com', 'bkex', 'digifinex', 'bitwell', 'fmfw.io']
+    wallets = ['coinbase wallet', 'myetherwallet', 'trustwallet', 'zengo', 'stakedwallet.io', 'exodus', 'metamask', 'ambire wallet', 'electrum wallet', 'jaxx',
+    'trezor wallet', 'coinomi', 'bitcoin core client', 'luno', 'bitgo cryptocurrency wallet', 'coinpayments wallet', 'blockchain.com' , 'xapo wallet', 'atomic wallet',
+    'bitso', 'simplehold', 'bread wallet', 'crypterium', 'guarda wallet', 'mycelium wallet', 'coinjar wallet', 'counterwallet', 'cryptx wallet', 'kcash wallet', 'omniwallet',
+    'usdx wallet', 'airbitz bitcoin wallet', 'copay', 'daedalus', 'imtoken', 'lumi wallet', 'wirex wallet', 'xeth ether wallet', 'armory wallet', 'block.io wallet',
+    'carbon wallet', 'coins', 'crypto storage', 'crypvestor', 'fireblocks', 'indie square', 'infinito wallet', 'infinity wallet', 'parity', 'poolin wallet']
+
+    protocol_articles = []
+    negatives = []
+
+    for i in data:
+        for j in data[i]:
+            for k in protocols:
+                if k in j["description"]:
+                    protocol_articles.append(j)
+
+
+    for i in data:
+        for j in data[i]:
+            for k in hack_words:
+                if k in j["description"]:
+                    negatives.append(j)
+    # for i in data:
+
+    #     for j in hack_words:
+    #         if j in i["description"]:
+    #             negatives.append(i)
+
+    # count = 0
+    # for i in data:
+    #     count += 1
+
+    print(protocol_articles)
+
+
+
+
+
+   

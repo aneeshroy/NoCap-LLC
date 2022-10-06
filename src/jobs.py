@@ -6,7 +6,7 @@ import redis
 from hotqueue import HotQueue
 
 
-redis_ip = 127.0. 0.1
+redis_ip = "127.0.0.1"
 
 rd = redis.Redis(host=redis_ip, port=6379, db=0, decode_responses=True)
 q = HotQueue("queue", host=redis_ip, port=6379, db=1)
